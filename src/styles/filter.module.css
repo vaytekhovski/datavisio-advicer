@@ -1,0 +1,27 @@
+.filterContainer{
+    width: 100%;
+    height: fit-content;
+    padding: 30px;  
+    margin-top: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+
+}
+
+.raw{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.filterBox{
+    padding:10px;
+    background-color:white;
+    border-radius: 4px;
+}
+
+.formControl{
+    min-width: 100% !important;
+}
