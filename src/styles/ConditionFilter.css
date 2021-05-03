@@ -1,0 +1,23 @@
+.ConditionFilterContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 10px;
+}
+
+.ConditionFilerLabel{
+    min-width: 60px;
+    padding-top: 10px;
+}
+
+.ConditionValue > input{
+    margin-left: 20px;
+}
+
+.ConditionSelect{
+    max-width: 150px;
+}
+
+.ConditionSelect > div{
+    width: 100px;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import Filter from './Filter.js'
+import Filter from './Filters/Filter.js'
 import Statistics from './Statistics.js'
 
 export default function SimpleContainer() {

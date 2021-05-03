@@ -10,11 +10,10 @@ import Slider from '@material-ui/core/Slider';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 
-
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import styles from '../styles/filter.module.css'
-
+import styles from '../../styles/filter.module.css'
 import DateFnsUtils from '@date-io/date-fns';
+import ConditionFiler from './ConditionFilter.js'
 
 const TimePeriods = [
     {
@@ -95,26 +94,11 @@ const MenuProps = {
     },
 };
 
-const EnterConditions = [
-    'price +1%',
-    'price +2%',
-    'price +3%',
-    'price +5%',
-    'price +100$',
-    'price +200$',
-    'price +300$',
-    'price +500$',
-];
+const Conditions = [
+    'PRICE',
+    'MACD',
+    'RSI',
 
-const OutConditions = [
-    'price -1%',
-    'price -2%',
-    'price -3%',
-    'price -5%',
-    'price -100$',
-    'price -200$',
-    'price -300$',
-    'price -500$',
 ];
 
 function getStyles(name, personName, theme) {
@@ -156,17 +140,6 @@ export default function Filter() {
 
     const classes = useStyles();
     const theme = useTheme();
-    const [enterCondition, setEnterCondition] = React.useState([]);
-    const [outCondition, setOutCondition] = React.useState([]);
-
-
-    const handleEnterConditionChange = (event) => {
-        setEnterCondition(event.target.value);
-    };
-    const handleOutConditionChange = (event) => {
-        setOutCondition(event.target.value);
-    };
-
 
 
     return (
@@ -261,55 +234,16 @@ export default function Filter() {
             <div className={styles.raw}>
                 <Box style={{ width: '50%' }}>
                     <InputLabel id="demo-mutiple-chip-label">Enter condition</InputLabel>
-                    <Select
-                        style={{ minWidth: '99%' }}
-                        labelId="demo-mutiple-chip-label"
-                        id="demo-mutiple-chip"
-                        multiple
-                        value={enterCondition}
-                        onChange={handleEnterConditionChange}
-                        input={<Input id="select-multiple-chip" />}
-                        renderValue={(selected) => (
-                            <div className={classes.chips}>
-                                {selected.map((value) => (
-                                    <Chip key={value} label={value} className={classes.chip} />
-                                ))}
-                            </div>
-                        )}
-                        MenuProps={MenuProps}
-                    >
-                        {EnterConditions.map((name) => (
-                            <MenuItem key={name} value={name} style={getStyles(name, enterCondition, theme)}>
-                                {name}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    {Conditions.map((condition, index) => 
+                        <ConditionFiler condition={condition} key={index}/>
+                    )}
+                   
                 </Box>
                 <Box style={{ width: '50%' }}>
                     <InputLabel id="demo-mutiple-chip-label">Out condition</InputLabel>
-                    <Select
-                        style={{ minWidth: '99%' }}
-                        labelId="demo-mutiple-chip-label"
-                        id="demo-mutiple-chip"
-                        multiple
-                        value={outCondition}
-                        onChange={handleOutConditionChange}
-                        input={<Input id="select-multiple-chip" />}
-                        renderValue={(selected) => (
-                            <div className={classes.chips}>
-                                {selected.map((value) => (
-                                    <Chip key={value} label={value} className={classes.chip} />
-                                ))}
-                            </div>
-                        )}
-                        MenuProps={MenuProps}
-                    >
-                        {OutConditions.map((name) => (
-                            <MenuItem key={name} value={name} style={getStyles(name, outCondition, theme)}>
-                                {name}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    {Conditions.map((condition, index) => 
+                        <ConditionFiler condition={condition} key={index}/>
+                    )}
                 </Box>
             </div>
             <div className={styles.raw}>
