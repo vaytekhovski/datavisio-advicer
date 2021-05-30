@@ -26,7 +26,7 @@ export default function Authorization(props) {
     const [error, setError] = useState();
 
     const signIn = () => {
-        postData('https://134.122.64.43:8895/api/Account/auth', { Login: login, Password: password })
+        postData('http://134.122.64.43:8895/api/Account/auth', { Login: login, Password: password })
             .then((data) => {
                 console.log(data); // JSON data parsed by `response.json()` call
                 if (data.success) {
