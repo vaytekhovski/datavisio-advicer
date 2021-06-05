@@ -123,6 +123,7 @@ export default function Filter(props) {
     const [timePeriod, setTimePeriod] = React.useState(30);
     const [enterCondition, setEnterCondition] = React.useState({});
     const [outCondition, setOutCondition] = React.useState({});
+    const [deals, setDeals] = React.useState();
 
 
     const handleExchangeChange = (event) => {
@@ -185,7 +186,8 @@ export default function Filter(props) {
                             props.setErrorMessage(res);
                             props.setError(true);
                         } else {
-
+                            console.log("end calculating"); 
+                            setDeals(res);
                             props.createRows(res);
                             props.setStatShowing(true);
 

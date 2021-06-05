@@ -38,32 +38,32 @@ export default function ConditionFilter(props) {
 
     const handleSelectChange = (event) => {
         setConditionArrow(event.target.value);
-        // props.onChange({
-        //     checked: checked,
-        //     condition: event.target.value,
-        //     value: value,
-        //     length: length
-        // });
+        props.onChange({
+            checked: checked,
+            condition: event.target.value,
+            value: value,
+            length: length
+        });
     };
 
     const handleValueChange = (event) => {
         setValue(event.target.value);
-        // props.onChange({
-        //     checked: checked,
-        //     condition: conditionArrow,
-        //     value: event.target.value,
-        //     length:length
-        // });
+        props.onChange({
+            checked: checked,
+            condition: conditionArrow,
+            value: event.target.value,
+            length:length
+        });
     };
 
     const handleLengthChange = (event) =>{
         setLength(event.target.value);
-        // props.onChange({
-        //     checked: checked,
-        //     condition: conditionArrow,
-        //     value: value,
-        //     length: event.target.value
-        // });
+        props.onChange({
+            checked: checked,
+            condition: conditionArrow,
+            value: value,
+            length: event.target.value
+        });
     }
 
     return (

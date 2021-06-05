@@ -35,7 +35,7 @@ export default class ProfitCalculator {
 
     async getOHLCV() {
         console.log("start loading data.");
-        
+        console.log(this.enterCondition);
         let ohlcv = await new ccxt.bytetrade().fetchOHLCV(this.getCurrency(this.currency) + '/USDT', this.period, Date.parse(this.startDate), 1000)
 
         let endDateDiff = moment(this.endDate).add(this.period.slice(0, this.period.length - 1) * -1, this.period[this.period.length - 1]).toDate();
