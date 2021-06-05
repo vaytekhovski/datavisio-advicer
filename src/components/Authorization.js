@@ -47,7 +47,7 @@ export default function Authorization(props) {
             <Container maxWidth="md">
                 <Typography component="div" style={{ height: '100vh' }} >
                     <div className={"authorizationContainer"}>
-                        <Box>
+                        <Box className={"authBox"}>
                             <InputLabel htmlFor="standard-adornment-amount">Login</InputLabel>
                             <Input
                                 style={{ minWidth: '99%' }}
@@ -57,7 +57,7 @@ export default function Authorization(props) {
                                 onChange={handleLoginChange}
                             />
                         </Box>
-                        <Box >
+                        <Box className={"authBox"}>
                             <InputLabel htmlFor="standard-adornment-amount">Password</InputLabel>
                             <Input
                                 style={{ minWidth: '99%' }}
@@ -67,10 +67,10 @@ export default function Authorization(props) {
                                 onChange={handlePasswordChange}
                             />
                         </Box>
-                        <Box>
+                        <Box className={"authBox"}>
                             {error && <h5>{error}</h5>}
                         </Box>
-                        <Box style={{ textAlign: "center" }}>
+                        <Box style={{ textAlign: "center" }} className={"authBox"}>
                             <Button
                                 variant="contained"
                                 color="primary"

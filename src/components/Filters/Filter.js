@@ -15,6 +15,10 @@ import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import styles from '../../styles/filter.module.css'
 import DateFnsUtils from '@date-io/date-fns';
 import ConditionFiler from './ConditionFilter.js'
+import moment from '../../../node_modules/moment'
+
+
+import ProfitCalculator from '../../ccxtService';
 
 const TimePeriods = [
     {
@@ -97,8 +101,6 @@ const MenuProps = {
 
 const Conditions = [
     'PRICE',
-    'MACD',
-    'RSI',
 
 ];
 
@@ -112,12 +114,15 @@ function getStyles(name, personName, theme) {
 }
 
 
-export default function Filter() {
+export default function Filter(props) {
     const [exchange, setExchange] = React.useState(1);
     const [currency, setCurrency] = React.useState(1);
-    const [startDate, setStartDate] = React.useState(new Date('2014-08-18T21:11:54'));
-    const [endDate, setEndDate] = React.useState(new Date('2014-08-18T21:11:54'));
-    const [amount, setAmount] = React.useState(100);
+    const [startDate, setStartDate] = React.useState(moment(Date.now()).add(-30, 'd'));
+    const [endDate, setEndDate] = React.useState(Date.now());
+    const [amount, setAmount] = React.useState(1000);
+    const [timePeriod, setTimePeriod] = React.useState(30);
+    const [enterCondition, setEnterCondition] = React.useState({});
+    const [outCondition, setOutCondition] = React.useState({});
 
 
     const handleExchangeChange = (event) => {
@@ -136,7 +141,66 @@ export default function Filter() {
         setEndDate(date);
     };
     const handleAmountChange = (value) => {
-        setAmount(value);
+        setAmount(value.target.value);
+    }
+    const handleTimePeriodChange = (event,value) => {
+        setTimePeriod(value);
+    }
+
+    const onEnterConditionChange = (value) => {
+        setEnterCondition(value);
+    }
+
+    const onOutConditionChange = (value) => {
+        setOutCondition(value);
+    }
+
+    const handleSubmit = () => {
+        // props.setData({});
+        props.setError(false);
+        props.setLoading(true);
+        props.setLoadingStatus("Loading data from Bytetrade...")
+        let pc = new ProfitCalculator(
+            amount,
+            currency,
+            exchange,
+            new Date(startDate),
+            new Date(endDate),
+            TimePeriods.find(t => t.value == timePeriod).label
+        );
+
+        if (enterCondition.checked && outCondition.checked) {
+            pc.setConditions(enterCondition, outCondition);
+
+            pc.getOHLCV().then(res => {
+                if (typeof res !== "object") {
+                    props.setLoading(false);
+                    props.setErrorMessage(res);
+                    props.setError(true);
+                } else {
+                    props.setLoadingStatus("Calculating profit...");
+                    pc.calculate().then(res => {
+                        props.setLoading(false);
+                        if (typeof res !== "object" || res.lenght == 0) {
+                            props.setErrorMessage(res);
+                            props.setError(true);
+                        } else {
+
+                            props.createRows(res);
+                            props.setStatShowing(true);
+
+                        }
+                    })
+                }
+            });
+        } else {
+            props.setLoading(false);
+            props.setErrorMessage("Please check enter and out conditions");
+            props.setError(true);
+        }
+
+
+
     }
 
     const classes = useStyles();
@@ -169,9 +233,7 @@ export default function Filter() {
                             value={exchange}
                             onChange={handleExchangeChange}
                         >
-                            <MenuItem value={1}>Binance</MenuItem>
-                            <MenuItem value={2}>Yubit</MenuItem>
-                            <MenuItem value={3}>Other</MenuItem>
+                            <MenuItem value={1}>Bytetrade</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
@@ -187,7 +249,8 @@ export default function Filter() {
                         >
                             <MenuItem value={1}>BTC</MenuItem>
                             <MenuItem value={2}>ETH</MenuItem>
-                            <MenuItem value={3}>XRP</MenuItem>
+                            {/* <MenuItem value={3}>XRP</MenuItem> */}
+
                         </Select>
                     </FormControl>
                 </Box>
@@ -199,6 +262,7 @@ export default function Filter() {
                         <DateTimePicker
                             style={{ minWidth: '99%' }}
                             label="Start Date"
+                            maxDate={new Date()}
                             value={startDate}
                             onChange={handleStartDateChange}
                             animateYearScrolling
@@ -209,7 +273,7 @@ export default function Filter() {
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DateTimePicker
                             style={{ minWidth: '99%' }}
-
+                            maxDate={new Date()}
                             label="End Date"
                             value={endDate}
                             onChange={handleEndDateChange}
@@ -224,31 +288,36 @@ export default function Filter() {
                     <InputLabel id="demo-simple-select-label">Time period</InputLabel>
                     <Slider
                         labelId="demo-simple-select-label"
-                        defaultValue={20}
+                        defaultValue={15}
                         getAriaValueText={valuetext}
                         aria-labelledby="discrete-slider-custom"
-                        step={null}
                         marks={TimePeriods}
+                        value={timePeriod}
+                        step={null}
+                        onChange={handleTimePeriodChange}
                     />
                 </Box>
             </div>
             <div className={styles.raw}>
                 <Box style={{ width: '50%' }}>
                     <InputLabel id="demo-mutiple-chip-label">Enter condition</InputLabel>
-                    {Conditions.map((condition, index) => 
-                        <ConditionFiler condition={condition} key={index}/>
+                    {Conditions.map((condition, index) =>
+                        <ConditionFiler condition={condition} key={index} onChange={onEnterConditionChange} conditionArrow={2} />
                     )}
-                   
+
                 </Box>
                 <Box style={{ width: '50%' }}>
                     <InputLabel id="demo-mutiple-chip-label">Out condition</InputLabel>
-                    {Conditions.map((condition, index) => 
-                        <ConditionFiler condition={condition} key={index}/>
+                    {Conditions.map((condition, index) =>
+                        <ConditionFiler condition={condition} key={index} onChange={onOutConditionChange} conditionArrow={1} />
                     )}
                 </Box>
             </div>
             <div className={styles.raw}>
-                <Button variant="contained" color="primary">
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmit}>
                     Check
                 </Button>
             </div>

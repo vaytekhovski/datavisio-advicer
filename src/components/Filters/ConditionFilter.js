@@ -4,6 +4,8 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Input from '@material-ui/core/Input'
 import FormControl from '@material-ui/core/FormControl'
+import InputAdornment from '@material-ui/core/InputAdornment';
+
 
 
 
@@ -11,22 +13,59 @@ import '../../styles/ConditionFilter.css'
 
 export default function ConditionFilter(props) {
     const [checked, setChecked] = React.useState(false);
+    const [conditionArrow, setConditionArrow] = React.useState(props.conditionArrow);
+    const [value, setValue] = React.useState(5);
+    const [length, setLength] = React.useState(12);
+
+    // React.useEffect(() =>{
+    //     props.onChange({
+    //         checked: checked,
+    //         condition: conditionArrow,
+    //         value: value,
+    //         length:length
+    //     });
+    // })
 
     const handleCheckBoxChange = (event) => {
         setChecked(event.target.checked);
+        props.onChange({
+            checked: event.target.checked,
+            condition: conditionArrow,
+            value: value,
+            length:length
+        });
     };
-
-    const [conditionArrow, setconditionArrow] = React.useState('');
 
     const handleSelectChange = (event) => {
-        setconditionArrow(event.target.value);
+        setConditionArrow(event.target.value);
+        // props.onChange({
+        //     checked: checked,
+        //     condition: event.target.value,
+        //     value: value,
+        //     length: length
+        // });
     };
-
-    const [value, setValue] = React.useState('');
 
     const handleValueChange = (event) => {
         setValue(event.target.value);
+        // props.onChange({
+        //     checked: checked,
+        //     condition: conditionArrow,
+        //     value: event.target.value,
+        //     length:length
+        // });
     };
+
+    const handleLengthChange = (event) =>{
+        setLength(event.target.value);
+        // props.onChange({
+        //     checked: checked,
+        //     condition: conditionArrow,
+        //     value: value,
+        //     length: event.target.value
+        // });
+    }
+
     return (
         <div className="ConditionFilterContainer">
             <label className="ConditionFilerLabel">{props.condition}</label>
@@ -46,11 +85,11 @@ export default function ConditionFilter(props) {
                 onChange={handleSelectChange}
             >
                 <MenuItem value="" disabled>Condition</MenuItem>
-                <MenuItem value={1}>More</MenuItem>
-                <MenuItem value={2}>Less</MenuItem>
-                <MenuItem value={3}>More or equal</MenuItem>
-                <MenuItem value={4}>Less or equal</MenuItem>
-                <MenuItem value={5}>Equal</MenuItem>
+                <MenuItem value={1}>Growth</MenuItem>
+                <MenuItem value={2}>Fall</MenuItem>
+                {/* <MenuItem value={3}>Growth or equal</MenuItem>
+                <MenuItem value={4}>Fall or equal</MenuItem>
+                <MenuItem value={5}>Equal</MenuItem> */}
 
             </Select>
             <Input
@@ -59,6 +98,16 @@ export default function ConditionFilter(props) {
                 style={{ width: "99%" }}
                 value={value}
                 onChange={handleValueChange}
+                endAdornment={<InputAdornment position="end">%</InputAdornment>}
+            />
+            <Input
+                disabled={!checked}
+                className="ConditionValue"
+                style={{ width: "99%" }}
+                value={length}
+                onChange={handleLengthChange}
+                endAdornment={<InputAdornment position="end">h</InputAdornment>}
+
             />
 
         </div >

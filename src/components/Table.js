@@ -23,20 +23,9 @@ const useRowStyles = makeStyles({
   },
 });
 
-function createData(dates, exchange, currency, amount, profit, profitpercent) {
-  return {
-    dates,
-    exchange,
-    currency,
-    amount,
-    profit,
-    profitpercent,
-    history: [
-      { date: '2020-01-05', exchange: 'Binance', currency:'BTC', side:'sell', amount: 0.0152, price:52000 },
-      { date: '2020-01-02', exchange: 'Binance', currency:'BTC', side:'buy', amount: 0.0153, price:52000 },
-    ],
-  };
-}
+
+
+
 
 function Row(props) {
   const { row } = props;
@@ -51,14 +40,14 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell component="th" scope="row" style={{ whiteSpace: 'noWrap' }}>
           {row.dates}
         </TableCell>
         <TableCell align="right">{row.exchange}</TableCell>
         <TableCell align="right">{row.currency}</TableCell>
         <TableCell align="right">{row.amount}</TableCell>
-        <TableCell align="right">{row.profit}</TableCell>
-        <TableCell align="right">{row.profitpercent}</TableCell>
+        <TableCell align="right" style={{ color: row.profit > 0 ? "green" : "red" }}>{row.profit}</TableCell>
+        <TableCell align="right" style={{ color: row.profitpercent > 0 ? "green" : "red" }}>{row.profitpercent}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
@@ -79,8 +68,8 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
+                  {row.history.map((historyRow, index) => (
+                    <TableRow key={index}>
                       <TableCell component="th" scope="row">
                         {historyRow.date}
                       </TableCell>
@@ -101,35 +90,13 @@ function Row(props) {
   );
 }
 
-// Row.propTypes = {
-//   row: PropTypes.shape({
-//     calories: PropTypes.number.isRequired,
-//     carbs: PropTypes.number.isRequired,
-//     fat: PropTypes.number.isRequired,
-//     history: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         amount: PropTypes.number.isRequired,
-//         customerId: PropTypes.string.isRequired,
-//         date: PropTypes.string.isRequired,
-//       }),
-//     ).isRequired,
-//     dates: PropTypes.string.isRequired,
-//     price: PropTypes.number.isRequired,
-//     protein: PropTypes.number.isRequired,
-//   }).isRequired,
-// };
 
-const rows = [
-  createData('02.01.2021 - 05.01.2021', 'Binance', 'BTC', 2996.79, 29, 1.15),
-  createData('02.01.2021 - 05.01.2021', 'Binance', 'BTC', 2996.79, 29, 1.15),
-  createData('02.01.2021 - 05.01.2021', 'Binance', 'BTC', 2996.79, 29, 1.15),
-  createData('02.01.2021 - 05.01.2021', 'Binance', 'BTC', 2996.79, 29, 1.15),
-  createData('02.01.2021 - 05.01.2021', 'Binance', 'BTC', 2996.79, 29, 1.15),
-];
 
-export default function CollapsibleTable() {
+export default function CollapsibleTable(props) {
+
+
   return (
-    <TableContainer component={Paper} style={{boxShadow:'0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)'}}>
+    <TableContainer component={Paper} style={{ boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)' }}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
@@ -143,8 +110,8 @@ export default function CollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.name} row={row} />
+          {props.rows && props.rows.map((row, index) => (
+            <Row key={row.name} row={row} key={index} />
           ))}
         </TableBody>
       </Table>
