@@ -20,7 +20,13 @@ namespace DatavisioAdvicerAPI.Controllers
         [HttpPost("auth")]
         public IActionResult Auth([FromBody]User model)
         {
-            var identity = GetIdentity(model.Login, model.Password);
+            User person;
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                person = db.Users.FirstOrDefault(x => x.Login == model.Login && x.Password == Security.Hash(model.Password));
+            }
+
+            var identity = CreateClaims(person);
             if (identity == null)
             {
                 return BadRequest(new { 
@@ -29,22 +35,21 @@ namespace DatavisioAdvicerAPI.Controllers
                 });
             }
 
-            var response = new
+            return Ok(new
             {
                 success = true,
                 access_token = Security.CreateJWT(identity),
                 username = identity.Name
-            };
-
-            return Ok(response);
+            });
         }
 
         [HttpPost("sign-up")]
         public async Task<IActionResult> Create([FromBody] User model)
         {
+            User person;
             using(DatabaseContext db = new DatabaseContext())
             {
-                var person = db.Users.FirstOrDefault(x=>x.Login == model.Login);
+                person = db.Users.FirstOrDefault(x=>x.Login == model.Login);
                 if(person != null)
                 {
                     return BadRequest(new
@@ -55,19 +60,29 @@ namespace DatavisioAdvicerAPI.Controllers
                 }
                 model.Password = Security.Hash(model.Password);
                 await db.Users.AddAsync(model);
-                 db.SaveChanges();
+                await db.SaveChangesAsync();
             }
 
-            return Auth(model);
+            var identity = CreateClaims(person);
+            if (identity == null)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    errorText = "Invalid username or password."
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                access_token = Security.CreateJWT(identity),
+                username = identity.Name
+            });
         }
 
-        private ClaimsIdentity GetIdentity(string username, string password)
+        private ClaimsIdentity CreateClaims(User person)
         {
-            User person;
-            using (DatabaseContext db = new DatabaseContext())
-            {
-                person = db.Users.FirstOrDefault(x => x.Login == username && x.Password == Security.Hash(password));
-            }
             if (person != null)
             {
                 var claims = new List<Claim>
@@ -80,7 +95,6 @@ namespace DatavisioAdvicerAPI.Controllers
                 return claimsIdentity;
             }
 
-            // если пользователя не найдено
             return null;
         }
     }
