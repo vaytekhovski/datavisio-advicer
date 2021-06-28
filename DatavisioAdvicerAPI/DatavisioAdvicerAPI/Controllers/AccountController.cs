@@ -54,11 +54,12 @@ namespace DatavisioAdvicerAPI.Controllers
                         errorText = "User with this login already created."
                     });
                 }
+                model.Password = Security.Hash(model.Password);
                 await db.Users.AddAsync(model);
                 await db.SaveChangesAsync();
             }
 
-            return Ok(Auth(model));
+            return Auth(model);
         }
 
         private ClaimsIdentity GetIdentity(string username, string password)
