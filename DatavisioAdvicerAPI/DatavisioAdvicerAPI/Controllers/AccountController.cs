@@ -42,10 +42,9 @@ namespace DatavisioAdvicerAPI.Controllers
         [HttpPost("sign-up")]
         public async Task<IActionResult> Create([FromBody] User model)
         {
-            User person;
             using(DatabaseContext db = new DatabaseContext())
             {
-                person = db.Users.FirstOrDefault(x=>x.Login == model.Login);
+                var person = db.Users.FirstOrDefault(x=>x.Login == model.Login);
                 if(person != null)
                 {
                     return BadRequest(new
@@ -56,7 +55,7 @@ namespace DatavisioAdvicerAPI.Controllers
                 }
                 model.Password = Security.Hash(model.Password);
                 await db.Users.AddAsync(model);
-                await db.SaveChangesAsync();
+                 db.SaveChanges();
             }
 
             return Auth(model);
