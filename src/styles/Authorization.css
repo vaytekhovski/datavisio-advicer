@@ -12,3 +12,14 @@
     margin-top: 30px;
     margin-bottom: 30px;
 }
+
+.authBottomButtons{
+    display: flex;
+    max-width: 70%;
+    flex-flow: column;
+    margin: 0px auto;
+}
+
+.authBottomButtons button{
+    margin-bottom: 10px;
+}

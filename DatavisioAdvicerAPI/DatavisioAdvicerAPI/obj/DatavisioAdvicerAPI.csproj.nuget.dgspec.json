@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Arseny.Vaitekhovsky\\source\\repos\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI.csproj": {}
+    "C:\\Repository\\datavisio-advicer\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Arseny.Vaitekhovsky\\source\\repos\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI.csproj": {
+    "C:\\Repository\\datavisio-advicer\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Arseny.Vaitekhovsky\\source\\repos\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI.csproj",
+        "projectUniqueName": "C:\\Repository\\datavisio-advicer\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI.csproj",
         "projectName": "DatavisioAdvicerAPI",
-        "projectPath": "C:\\Users\\Arseny.Vaitekhovsky\\source\\repos\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI.csproj",
+        "projectPath": "C:\\Repository\\datavisio-advicer\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI.csproj",
         "packagesPath": "C:\\Users\\Arseny.Vaitekhovsky\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Arseny.Vaitekhovsky\\source\\repos\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\obj\\",
+        "outputPath": "C:\\Repository\\datavisio-advicer\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Arseny.Vaitekhovsky\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -46,13 +46,13 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.6, )"
+              "version": "[5.0.7, )"
             },
-            "Microsoft.EntityFrameworkCore.Tools": {
+            "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[5.0.6, )"
+              "version": "[5.0.7, )"
             },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
@@ -61,6 +61,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[5.0.1, )"
             }
           },
           "imports": [
@@ -81,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }

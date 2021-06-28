@@ -7,7 +7,7 @@ import Authorization from './components/Authorization'
 
 function App() {
   const [jwt, setJwt] = useState("");
-  const [isAuth, setAuth] = useState(localStorage.getItem("user2") == null ? false : true);
+  const [isAuth, setAuth] = useState(localStorage.getItem("user") == null ? false : true);
   const [userName, setUserName] = useState("");
 
   const setAuthorize = (values) =>{

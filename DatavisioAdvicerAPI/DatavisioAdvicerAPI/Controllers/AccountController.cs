@@ -16,26 +16,11 @@ namespace DatavisioAdvicerAPI.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        // тестовые данные вместо использования базы данных
-        private List<UserLogin> people = new List<UserLogin>
-        {
-            new UserLogin {Login="admin", Password="admin" }
-        };
-
-        [HttpGet("test")]
-        public IActionResult Test()
-        {
-            return Ok(new
-            {
-                success = true,
-                message = "testIsOk"
-            });
-        }
 
         [HttpPost("auth")]
-        public IActionResult Token([FromBody]UserLogin userLogin)
+        public IActionResult Auth([FromBody]User model)
         {
-            var identity = GetIdentity(userLogin.Login, userLogin.Password);
+            var identity = GetIdentity(model.Login, model.Password);
             if (identity == null)
             {
                 return BadRequest(new { 
@@ -44,30 +29,45 @@ namespace DatavisioAdvicerAPI.Controllers
                 });
             }
 
-            var now = DateTime.UtcNow;
-            // создаем JWT-токен
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
-                    notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
             var response = new
             {
                 success = true,
-                access_token = encodedJwt,
+                access_token = Security.CreateJWT(identity),
                 username = identity.Name
             };
 
             return Ok(response);
         }
 
+        [HttpPost("sign-up")]
+        public async Task<IActionResult> Create([FromBody] User model)
+        {
+            User person;
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                person = db.Users.FirstOrDefault(x=>x.Login == model.Login);
+                if(person != null)
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        errorText = "User with this login already created."
+                    });
+                }
+                await db.Users.AddAsync(model);
+                await db.SaveChangesAsync();
+            }
+
+            return Ok(Auth(model));
+        }
+
         private ClaimsIdentity GetIdentity(string username, string password)
         {
-            UserLogin person = people.FirstOrDefault(x => x.Login == username && x.Password == password);
+            User person;
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                person = db.Users.FirstOrDefault(x => x.Login == username && x.Password == Security.Hash(password));
+            }
             if (person != null)
             {
                 var claims = new List<Claim>

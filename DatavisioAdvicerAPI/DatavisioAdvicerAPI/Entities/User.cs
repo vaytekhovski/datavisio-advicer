@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace DatavisioAdvicerAPI.Entities
 {
-    public class UserLogin
+    public class User
     {
+        public Guid id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
+        public string RegistrationDate { get; set; }
     }
 }
