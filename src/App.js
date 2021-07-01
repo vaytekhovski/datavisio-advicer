@@ -12,6 +12,7 @@ import Payments from './components/Payments'
 
 
 import {
+  BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
@@ -37,27 +38,18 @@ function App(props) {
   }
 
   return (
-    <>
-      {/* {
-        isAuth ?
-          <>
-            <AppMenu />
-            <AppContent />
-          </> :
-          <Authorization onAuthorize={setAuthorize}/>
-      } */}
+    <Router history={history}>
       <div>
         <AppMenu isAuth={isAuth} />
         {
           isAuth ?
             <Switch>
-              <Route history={history} path='/home' component={Home} />
+              <Route history={history} exact path='/' component={Home} />
               <Route history={history} path='/dashboard' component={AppContent} />
               <Route history={history} path='/settings' component={Settings} />
               <Route history={history} path='/history' component={History} />
               <Route history={history} path='/payments' component={Payments} />
               
-
               <Route history={history} path="auth">
                 <Authorization onAuthorize={setAuthorize} />
               </Route>
@@ -69,7 +61,7 @@ function App(props) {
             </Switch>
             :
             <Switch>
-              <Route history={history} path='/home' component={Home} />
+              <Route history={history} exact path='/' component={Home} />
               <Route history={history} path="/auth">
                 <Authorization onAuthorize={setAuthorize} />
               </Route>
@@ -78,7 +70,7 @@ function App(props) {
             </Switch>
         }
       </div>
-    </>
+    </Router>
   );
 }
 

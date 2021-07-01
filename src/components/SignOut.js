@@ -18,7 +18,7 @@ export default function SignOut(props) {
             <Container maxWidth="md">
                 <h1>Loading...</h1>
                 <LinearProgress />
-                <Redirect push to="/Home" />
+                <Redirect push to="/" />
             </Container>
         </>
     )
