@@ -46,7 +46,7 @@ namespace DatavisioAdvicerAPI.Controllers
         [HttpPost("sign-up")]
         public async Task<IActionResult> Create([FromBody] User model)
         {
-            User person;
+            User person = model;
             using(DatabaseContext db = new DatabaseContext())
             {
                 person = db.Users.FirstOrDefault(x=>x.Login == model.Login);
