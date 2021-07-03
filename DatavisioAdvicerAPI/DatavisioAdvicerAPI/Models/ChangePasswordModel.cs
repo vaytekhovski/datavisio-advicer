@@ -7,7 +7,7 @@ namespace DatavisioAdvicerAPI.Models
 {
     public class ChangePasswordModel
     {
-        public Guid id { get; set; }
+        public Guid userId { get; set; }
         public string oldPassword { get; set; }
         public string newPassword { get; set; }
     }

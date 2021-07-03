@@ -89,7 +89,7 @@ namespace DatavisioAdvicerAPI.Controllers
         {
             using(DatabaseContext db = new DatabaseContext())
             {
-                var person = db.Users.FirstOrDefault(x => x.id == model.id);
+                var person = db.Users.FirstOrDefault(x => x.id == model.userId);
                 if(person == null)
                 {
                     return BadRequest(new
