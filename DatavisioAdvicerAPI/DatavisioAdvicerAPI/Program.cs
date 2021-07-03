@@ -15,7 +15,7 @@ namespace DatavisioAdvicerAPI
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args)
-              .UseUrls("http://*:5000")
+              .UseUrls("http://*:8895")
               .Build()
               .Run();
         }
