@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using DatavisioAdvicerAPI.Models;
 
 namespace DatavisioAdvicerAPI.Controllers
 {
@@ -39,7 +40,8 @@ namespace DatavisioAdvicerAPI.Controllers
             {
                 success = true,
                 access_token = Security.CreateJWT(identity),
-                username = identity.Name
+                username = identity.Name,
+                userId = person.id
             });
         }
 
@@ -77,8 +79,42 @@ namespace DatavisioAdvicerAPI.Controllers
             {
                 success = true,
                 access_token = Security.CreateJWT(identity),
-                username = identity.Name
+                username = identity.Name,
+                userId = person.id
             });
+        }
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                var person = db.Users.FirstOrDefault(x => x.id == model.id);
+                if(person == null)
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        errorText = "Invalid userId"
+                    });
+                }
+
+                if(person.Password == Security.Hash(model.oldPassword))
+                {
+                    person.Password = Security.Hash(model.newPassword);
+                    await db.SaveChangesAsync();
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        errorText = "Incorrect old password"
+                    });
+                }
+            }
+
+            return Ok(new { success = true });
         }
 
         private ClaimsIdentity CreateClaims(User person)

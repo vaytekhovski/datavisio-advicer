@@ -7,6 +7,7 @@ import Authorization from './components/Authorization'
 import SignOut from './components/SignOut'
 import Home from './components/Home'
 import Settings from './components/Settings'
+import ChangePassword from './components/ChangePassword'
 import History from './components/History'
 import Payments from './components/Payments'
 
@@ -46,7 +47,9 @@ function App(props) {
             <Switch>
               <Route history={history} exact path='/' component={Home} />
               <Route history={history} path='/dashboard' component={AppContent} />
-              <Route history={history} path='/settings' component={Settings} />
+              <Route history={history} exact path='/settings' component={Settings} />
+              <Route history={history} path='/settings/change-password' component={ChangePassword} />
+
               <Route history={history} path='/history' component={History} />
               <Route history={history} path='/payments' component={Payments} />
               

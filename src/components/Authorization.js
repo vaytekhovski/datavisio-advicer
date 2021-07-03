@@ -53,6 +53,8 @@ export default function Authorization(props) {
                     console.log(data); // JSON data parsed by `response.json()` call
                     if (data.success) {
                         localStorage.setItem("user", data.access_token);
+                        localStorage.setItem("userId", data.userId);
+
                         props.onAuthorize({
                             isAuth: true,
                             jwt: data.access_token,
@@ -81,6 +83,8 @@ export default function Authorization(props) {
                         console.log(data);
                         if (data.success) {
                             localStorage.setItem("user", data.access_token);
+                            localStorage.setItem("userId", data.userId);
+
                             props.onAuthorize({
                                 isAuth: true,
                                 jwt: data.access_token,

@@ -8,6 +8,16 @@
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
+.changePasswordContainer{
+    width: 50%;
+    height: fit-content;
+    padding: 30px;  
+    margin: 0px auto;
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
 .authBox {
     margin-top: 30px;
     margin-bottom: 30px;

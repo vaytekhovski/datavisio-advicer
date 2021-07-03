@@ -12,10 +12,10 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import '../../styles/ConditionFilter.css'
 
 export default function ConditionFilter(props) {
-    const [checked, setChecked] = React.useState(false);
-    const [conditionArrow, setConditionArrow] = React.useState(props.conditionArrow);
-    const [value, setValue] = React.useState(5);
-    const [length, setLength] = React.useState(12);
+    const [checked, setChecked] = React.useState(props.value.checked);
+    const [conditionArrow, setConditionArrow] = React.useState(props.value.condition);
+    const [value, setValue] = React.useState(props.value.value);
+    const [length, setLength] = React.useState(props.value.length);
 
     // React.useEffect(() =>{
     //     props.onChange({

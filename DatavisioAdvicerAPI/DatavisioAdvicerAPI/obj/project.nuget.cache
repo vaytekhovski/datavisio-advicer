@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "fd4fy2557tjCq/ltR81NYLt3Rwt0U0OVtT5ztOadQqAsynulS12B8Ub3CfVJA9+P+6aGitjYKlumNzzncIQusQ==",
+  "dgSpecHash": "lrgtmkQ600Z4CzjjHtxvWzQKIqF4LVnuFKrfklNEpeetdQDOhtoUTOUlwri3/428adCIEHFCrV8hUOJ9AQ8tcA==",
   "success": true,
   "projectFilePath": "C:\\Repository\\datavisio-advicer\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI\\DatavisioAdvicerAPI.csproj",
   "expectedPackageFiles": [
@@ -12,6 +12,7 @@
     "C:\\Users\\Arseny.Vaitekhovsky\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\5.0.7\\microsoft.entityframeworkcore.analyzers.5.0.7.nupkg.sha512",
     "C:\\Users\\Arseny.Vaitekhovsky\\.nuget\\packages\\microsoft.entityframeworkcore.design\\5.0.7\\microsoft.entityframeworkcore.design.5.0.7.nupkg.sha512",
     "C:\\Users\\Arseny.Vaitekhovsky\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\5.0.7\\microsoft.entityframeworkcore.relational.5.0.7.nupkg.sha512",
+    "C:\\Users\\Arseny.Vaitekhovsky\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\5.0.7\\microsoft.entityframeworkcore.tools.5.0.7.nupkg.sha512",
     "C:\\Users\\Arseny.Vaitekhovsky\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Arseny.Vaitekhovsky\\.nuget\\packages\\microsoft.extensions.caching.memory\\5.0.0\\microsoft.extensions.caching.memory.5.0.0.nupkg.sha512",
     "C:\\Users\\Arseny.Vaitekhovsky\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",

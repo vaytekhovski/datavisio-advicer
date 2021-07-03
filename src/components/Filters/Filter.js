@@ -114,17 +114,75 @@ function getStyles(name, personName, theme) {
 }
 
 
+
+
+
 export default function Filter(props) {
-    const [exchange, setExchange] = React.useState(1);
-    const [currency, setCurrency] = React.useState(1);
-    const [startDate, setStartDate] = React.useState(moment(Date.now()).add(-30, 'd'));
-    const [endDate, setEndDate] = React.useState(Date.now());
-    const [amount, setAmount] = React.useState(1000);
-    const [timePeriod, setTimePeriod] = React.useState(30);
-    const [enterCondition, setEnterCondition] = React.useState({});
-    const [outCondition, setOutCondition] = React.useState({});
+    const [exchange, setExchange] = React.useState(new URLSearchParams(window.location.href).get("exchange") || 1);
+    const [currency, setCurrency] = React.useState(new URLSearchParams(window.location.href).get("currency") || 1);
+    const [startDate, setStartDate] = React.useState(new URLSearchParams(window.location.href).get("startDate") || moment(Date.now()).add(-30, 'd'));
+    const [endDate, setEndDate] = React.useState(new URLSearchParams(window.location.href).get("endDate") || moment(Date.now()));
+    const [amount, setAmount] = React.useState(new URLSearchParams(window.location.href).get("amount") || 1000);
+    const [timePeriod, setTimePeriod] = React.useState(new URLSearchParams(window.location.href).get("timePeriod") || 30);
+    const [enterCondition, setEnterCondition] = React.useState(
+        new URLSearchParams(window.location.href).get("ecChecked") ?
+            {
+                checked: new URLSearchParams(window.location.href).get("ecChecked") === 'true',
+                condition: new URLSearchParams(window.location.href).get("ecCondition"),
+                value: new URLSearchParams(window.location.href).get("ecValue"),
+                length: new URLSearchParams(window.location.href).get("ecLength"),
+            }
+            :
+            {
+                checked:false,
+                condition:2,
+                value:5,
+                length:12
+            }
+    );
+    const [outCondition, setOutCondition] = React.useState(
+        new URLSearchParams(window.location.href).get("ocChecked") ?
+            {
+                checked: new URLSearchParams(window.location.href).get("ocChecked") === 'true',
+                condition: new URLSearchParams(window.location.href).get("ocCondition"),
+                value: new URLSearchParams(window.location.href).get("ocValue"),
+                length: new URLSearchParams(window.location.href).get("ocLength"),
+            }
+            :
+            {
+                checked:false,
+                condition:1,
+                value:5,
+                length:12
+            }
+    );
     const [deals, setDeals] = React.useState();
 
+    function updateUrlParamethers() {
+        props.history.push({
+            pathname: '/dashboard',
+            search: '?' + new URLSearchParams(
+                {
+                    exchange: exchange,
+                    currency: currency,
+                    amount: amount,
+                    startDate: startDate,
+                    endDate: endDate,
+                    timePeriod: timePeriod,
+
+                    ecChecked: enterCondition.checked,
+                    ecCondition: enterCondition.condition,
+                    ecValue: enterCondition.value,
+                    ecLength: enterCondition.length,
+
+                    ocChecked: outCondition.checked,
+                    ocCondition: outCondition.condition,
+                    ocValue: outCondition.value,
+                    ocLength: outCondition.length,
+                }
+            )
+        })
+    }
 
     const handleExchangeChange = (event) => {
         setExchange(event.target.value);
@@ -141,10 +199,12 @@ export default function Filter(props) {
     const handleEndDateChange = (date) => {
         setEndDate(date);
     };
+
     const handleAmountChange = (value) => {
         setAmount(value.target.value);
     }
-    const handleTimePeriodChange = (event,value) => {
+
+    const handleTimePeriodChange = (event, value) => {
         setTimePeriod(value);
     }
 
@@ -157,6 +217,8 @@ export default function Filter(props) {
     }
 
     const handleSubmit = () => {
+        updateUrlParamethers();
+
         // props.setData({});
         props.setError(false);
         props.setLoading(true);
@@ -186,7 +248,7 @@ export default function Filter(props) {
                             props.setErrorMessage(res);
                             props.setError(true);
                         } else {
-                            console.log("end calculating"); 
+                            console.log("end calculating");
                             setDeals(res);
                             props.createRows(res);
                             props.setStatShowing(true);
@@ -304,14 +366,14 @@ export default function Filter(props) {
                 <Box style={{ width: '50%' }}>
                     <InputLabel id="demo-mutiple-chip-label">Enter condition</InputLabel>
                     {Conditions.map((condition, index) =>
-                        <ConditionFiler condition={condition} key={index} onChange={onEnterConditionChange} conditionArrow={2} />
+                        <ConditionFiler condition={condition} value={enterCondition} key={index} onChange={onEnterConditionChange}/>
                     )}
 
                 </Box>
                 <Box style={{ width: '50%' }}>
                     <InputLabel id="demo-mutiple-chip-label">Out condition</InputLabel>
                     {Conditions.map((condition, index) =>
-                        <ConditionFiler condition={condition} key={index} onChange={onOutConditionChange} conditionArrow={1} />
+                        <ConditionFiler condition={condition} value={outCondition} key={index} onChange={onOutConditionChange}/>
                     )}
                 </Box>
             </div>

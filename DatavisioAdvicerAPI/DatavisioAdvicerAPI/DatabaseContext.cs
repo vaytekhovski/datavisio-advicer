@@ -10,6 +10,7 @@ namespace DatavisioAdvicerAPI
     public class DatabaseContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<EmulationHistoryEntity> EmulationHistories { get; set; }
 
         public DatabaseContext()
         {
