@@ -101,8 +101,12 @@ const MenuProps = {
 
 const Conditions = [
     'PRICE',
-
 ];
+
+const Exchanges = [
+    'Binance',
+    'Bytetrade'
+]
 
 function getStyles(name, personName, theme) {
     return {
@@ -118,7 +122,7 @@ function getStyles(name, personName, theme) {
 
 
 export default function Filter(props) {
-    const [exchange, setExchange] = React.useState(new URLSearchParams(window.location.href).get("exchange") || 1);
+    const [exchange, setExchange] = React.useState(new URLSearchParams(window.location.href).get("exchange") || 0);
     const [currency, setCurrency] = React.useState(new URLSearchParams(window.location.href).get("currency") || 1);
     const [startDate, setStartDate] = React.useState(new URLSearchParams(window.location.href).get("startDate") || moment(Date.now()).add(-30, 'd'));
     const [endDate, setEndDate] = React.useState(new URLSearchParams(window.location.href).get("endDate") || moment(Date.now()));
@@ -134,10 +138,10 @@ export default function Filter(props) {
             }
             :
             {
-                checked:false,
-                condition:2,
-                value:5,
-                length:12
+                checked: false,
+                condition: 2,
+                value: 5,
+                length: 12
             }
     );
     const [outCondition, setOutCondition] = React.useState(
@@ -150,10 +154,10 @@ export default function Filter(props) {
             }
             :
             {
-                checked:false,
-                condition:1,
-                value:5,
-                length:12
+                checked: false,
+                condition: 1,
+                value: 5,
+                length: 12
             }
     );
     const [deals, setDeals] = React.useState();
@@ -222,7 +226,7 @@ export default function Filter(props) {
         // props.setData({});
         props.setError(false);
         props.setLoading(true);
-        props.setLoadingStatus("Loading data from Bytetrade...")
+        props.setLoadingStatus("Loading data from " + Exchanges[exchange] + "...")
         let pc = new ProfitCalculator(
             amount,
             currency,
@@ -297,7 +301,10 @@ export default function Filter(props) {
                             value={exchange}
                             onChange={handleExchangeChange}
                         >
-                            <MenuItem value={1}>Bytetrade</MenuItem>
+                            {Exchanges.map((exchange, index) =>
+                                <MenuItem value={index}>{exchange}</MenuItem>
+                            )}
+
                         </Select>
                     </FormControl>
                 </Box>
@@ -366,14 +373,14 @@ export default function Filter(props) {
                 <Box style={{ width: '50%' }}>
                     <InputLabel id="demo-mutiple-chip-label">Enter condition</InputLabel>
                     {Conditions.map((condition, index) =>
-                        <ConditionFiler condition={condition} value={enterCondition} key={index} onChange={onEnterConditionChange}/>
+                        <ConditionFiler condition={condition} value={enterCondition} key={index} onChange={onEnterConditionChange} />
                     )}
 
                 </Box>
                 <Box style={{ width: '50%' }}>
                     <InputLabel id="demo-mutiple-chip-label">Out condition</InputLabel>
                     {Conditions.map((condition, index) =>
-                        <ConditionFiler condition={condition} value={outCondition} key={index} onChange={onOutConditionChange}/>
+                        <ConditionFiler condition={condition} value={outCondition} key={index} onChange={onOutConditionChange} />
                     )}
                 </Box>
             </div>

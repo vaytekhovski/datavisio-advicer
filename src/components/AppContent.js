@@ -56,14 +56,13 @@ export default function SimpleContainer(props) {
   }
 
   function createRows(data) {
-    console.log(data);
     if (data && typeof data === "object") {
       let bufRows = [];
       for (let i = 0; i < data.length - 1; i += 2) {
         bufRows.push(
           createData(
             data[i].date.toLocaleDateString("ru-RU") + ' - ' + data[i + 1].date.toLocaleDateString("ru-RU"),
-            'Bytetrade',
+            data[i].exchange,
             data[i].currency,
             Number(data[i].usdAmount).toFixed(2),
             Number(data[i + 1].profitUSD).toFixed(2),
@@ -71,7 +70,7 @@ export default function SimpleContainer(props) {
             [
               {
                 date: data[i].date.toLocaleDateString("ru-RU"),
-                exchange: 'Bytetrade',
+                exchange: data[i].exchange,
                 currency: data[i].currency,
                 side: data[i].side,
                 amount: data[i].coinAmount,
@@ -79,7 +78,7 @@ export default function SimpleContainer(props) {
               },
               {
                 date: data[i + 1].date.toLocaleDateString("ru-RU"),
-                exchange: 'Bytetrade',
+                exchange: data[i + 1].exchange,
                 currency: data[i + 1].currency,
                 side: data[i + 1].side,
                 amount: data[i + 1].coinAmount,
@@ -130,7 +129,7 @@ export default function SimpleContainer(props) {
 }
 
 function SendHistory(search, profit, exchange, currency, dates) {
-  postData('http://134.122.64.43:8895/api/Emulation/addHistory',
+  postData('http://134.122.64.43:8895/api/Emulation/history',
     {
       UserId: localStorage.getItem("userId"),
       Exchange: exchange,
@@ -158,3 +157,4 @@ async function postData(url = '', data = {}) {
   });
   return await response.json(); // parses JSON response into native JavaScript objects
 }
+

@@ -23,28 +23,55 @@ export default class ProfitCalculator {
         this.outDiffCount = (outCondition.length * 60) / this.period.slice(0, this.period.length - 1);
     }
 
-    getCurrency(value){
+    getCurrency(value) {
         let currency = "";
-        switch(this.currency){
-            case 1:currency = "BTC";break;
-            case 2:currency = "ETH";break;
-            case 3:currency = "XRP";break;
+        switch (this.currency) {
+            case 1: currency = "BTC"; break;
+            case 2: currency = "ETH"; break;
+            case 3: currency = "XRP"; break;
         }
         return currency;
     }
 
+    getExchange(value) {
+        let exchange = "";
+        switch (this.exchange) {
+            case 0: exchange = "Binance"; break;
+            case 1: exchange = "Bytetrade"; break;
+        }
+        return exchange;
+    }
+
     async getOHLCV() {
         console.log("start loading data.");
-        console.log(this.enterCondition);
-        let ohlcv = await new ccxt.bytetrade().fetchOHLCV(this.getCurrency(this.currency) + '/USDT', this.period, Date.parse(this.startDate), 1000)
-
+        let ohlcv;
+        try {
+            switch (this.exchange) {
+                case 0:
+                    ohlcv = await new ccxt.binance().fetchOHLCV(this.getCurrency(this.currency) + '/USDT', this.period, Date.parse(this.startDate), 1000)
+                    break;
+                case 1:
+                    ohlcv = await new ccxt.bytetrade().fetchOHLCV(this.getCurrency(this.currency) + '/USDT', this.period, Date.parse(this.startDate), 1000)
+                    break;
+            }
+        } catch (e) {
+            return "Something went wrong. Please try again!";
+        }
         let endDateDiff = moment(this.endDate).add(this.period.slice(0, this.period.length - 1) * -1, this.period[this.period.length - 1]).toDate();
 
         if (ohlcv.length !== 0) {
             console.log("pending...");
 
             while (new Date(ohlcv[ohlcv.length - 1][0]) < endDateDiff) {
-                let resp = await new ccxt.bytetrade().fetchOHLCV('BTC/USDT', this.period, ohlcv[ohlcv.length - 1][0], 1000)
+                let resp;
+                switch (this.exchange) {
+                    case 0:
+                        resp = await new ccxt.binance().fetchOHLCV(this.getCurrency(this.currency) + '/USDT', this.period, ohlcv[ohlcv.length - 1][0], 1000)
+                        break;
+                    case 1:
+                        resp = await new ccxt.bytetrade().fetchOHLCV(this.getCurrency(this.currency) + '/USDT', this.period, ohlcv[ohlcv.length - 1][0], 1000)
+                        break;
+                }
                 ohlcv.push(...resp);
             }
 
@@ -148,7 +175,8 @@ export default class ProfitCalculator {
             usdAmount: this.isInDeal ? this.coinAmount * this.ohlcvList[i].close : this.amountUSD,
             date: this.ohlcvList[i].date,
             side: this.isInDeal ? "sell" : "buy",
-            currency: this.getCurrency(this.currency)
+            currency: this.getCurrency(this.currency),
+            exchange: this.getExchange(this.exchange)
         };
 
         if (this.isInDeal) {

@@ -50,7 +50,6 @@ export default function Authorization(props) {
             setIsLoading(true);
             postData('http://134.122.64.43:8895/api/Account/auth', { Login: login, Password: password })
                 .then((data) => {
-                    console.log(data); // JSON data parsed by `response.json()` call
                     if (data.success) {
                         localStorage.setItem("user", data.access_token);
                         localStorage.setItem("userId", data.userId);
@@ -80,7 +79,6 @@ export default function Authorization(props) {
                 setIsLoading(true);
                 postData('http://134.122.64.43:8895/api/Account/sign-up', { Login: login, Password: password })
                     .then((data) => {
-                        console.log(data);
                         if (data.success) {
                             localStorage.setItem("user", data.access_token);
                             localStorage.setItem("userId", data.userId);

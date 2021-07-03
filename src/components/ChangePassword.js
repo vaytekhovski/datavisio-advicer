@@ -50,7 +50,6 @@ export default function ChangePassword(props) {
                         newPassword: newPassword
                     })
                     .then((data) => {
-                        console.log(data); // JSON data parsed by `response.json()` call
                         if (data.success) {
                             setSuccessMessage("Password has changed.");
                         } else {

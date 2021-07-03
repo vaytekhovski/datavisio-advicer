@@ -11,11 +11,7 @@ export default function Settings() {
                 <h1>Settings</h1>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                     <Button style={{justifyContent:"start"}} color="inherit" endIcon={<ArrowForwardIosIcon />} href="/settings/change-password">Change password</Button>
-                    <Button style={{justifyContent:"start"}} color="inherit" endIcon={<ArrowForwardIosIcon />} >Other settings</Button>
-                    <Button style={{justifyContent:"start"}} color="inherit" endIcon={<ArrowForwardIosIcon />} >Other settings</Button>
-                    <Button style={{justifyContent:"start"}} color="inherit" endIcon={<ArrowForwardIosIcon />} >Other settings</Button>
-                    <Button style={{justifyContent:"start"}} color="inherit" endIcon={<ArrowForwardIosIcon />} >Other settings</Button>
-
+                    
                 </div>
 
             </Container>
